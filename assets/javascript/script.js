@@ -18,24 +18,21 @@ let length = document.getElementById("length");
 let modal = document.getElementById("modal");
 
 let params = {
-    length: length, 
-    specials: specials, 
-    nums: nums, 
-    uppers: uppers, 
+    length: length,
+    specials: specials,
+    nums: nums,
+    uppers: uppers,
     lowers: lowers
 }
 
 
 const startChoices = (event) => {
     event.preventDefault();
-    console.log("gen clicked");
     modal.classList.remove("hide");
-
 }
 
 const copy = (event) => {
     event.preventDefault();
-    console.log("copy clicked")
 }
 
 const getParams = (event) => {
@@ -50,13 +47,9 @@ const getParams = (event) => {
         validateLength.classList.add("hide");
     } else if (!params.specials.checked && !params.nums.checked && !params.uppers.checked && !params.lowers.checked) {
         validateBoxes.classList.remove("hide");
-    } 
-    
-    else {
+    } else {
         modal.classList.add("hide");
     }
-    console.log(params.specials.checked);
-    console.log(params.length.value);
     generate();
 }
 
@@ -86,28 +79,25 @@ const generate = () => {
 
 const random = (arr) => {
     let randomNum = Math.floor(Math.random() * arr.length);
-    generatedArr.push(arr[randomNum])
-    console.log(generatedArr)
+    generatedArr.push(arr[randomNum]);
 }
 
 const finishGeneration = () => {
-    console.log(choicesArr)
-    for(let i = generatedArr.length; i < params.length.value; i++) {
+    for (let i = generatedArr.length; i < params.length.value; i++) {
         random(choicesArr);
     }
-
     display();
 }
 
 const display = () => {
-    document.getElementById("display").value = generatedArr.join("");
+    console.log(generatedArr)
+    let final = generatedArr
+        .map((a) => ({ sort: Math.random(), value: a }))
+        .sort((a, b) => a.sort - b.sort)
+        .map((a) => a.value)
+    document.getElementById("display").value = final.join("");
 }
 
 document.getElementById("generate").addEventListener("click", startChoices);
 document.getElementById("copy").addEventListener("click", copy);
-// document.getElementById("specials").addEventListener("change", function () {setValues(specials);});
-// document.getElementById("nums").addEventListener("change", function () {setValues(nums);})
-// document.getElementById("lowers").addEventListener("change", function () {setValues(lowers);})
-// document.getElementById("uppers").addEventListener("change", function () {setValues(uppers);})
-
 document.getElementById("save").addEventListener("click", getParams);
