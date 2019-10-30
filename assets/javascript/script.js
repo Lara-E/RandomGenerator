@@ -16,6 +16,7 @@ let lowers = document.getElementById("lowers");
 let uppers = document.getElementById("uppers");
 let length = document.getElementById("length");
 let modal = document.getElementById("modal");
+let displayEl = document.getElementById("display");
 
 let params = {
     length: length,
@@ -33,6 +34,8 @@ const startChoices = (event) => {
 
 const copy = (event) => {
     event.preventDefault();
+        displayEl.select();
+        document.execCommand("copy");
 }
 
 const getParams = (event) => {
@@ -95,9 +98,14 @@ const display = () => {
         .map((a) => ({ sort: Math.random(), value: a }))
         .sort((a, b) => a.sort - b.sort)
         .map((a) => a.value)
-    document.getElementById("display").value = final.join("");
+    displayEl.value = final.join("");
+}
+
+const copyCSS = () => {
+    displayEl.classList.add("copied");
 }
 
 document.getElementById("generate").addEventListener("click", startChoices);
 document.getElementById("copy").addEventListener("click", copy);
 document.getElementById("save").addEventListener("click", getParams);
+document.getElementById("copy").addEventListener("click", copyCSS)
