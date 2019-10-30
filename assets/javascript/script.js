@@ -30,7 +30,6 @@ let params = {
     lowers: lowers
 }
 
-
 const startChoices = (event) => {
     event.preventDefault();
     modal.classList.remove("hide");
@@ -55,7 +54,6 @@ const getParams = (event) => {
     } else if (!params.specials.checked && !params.nums.checked && !params.uppers.checked && !params.lowers.checked) {
         validateBoxes.classList.remove("hide");
     } else {
-
         generate();
     }
 }
@@ -104,7 +102,6 @@ const display = () => {
     displayEl.value = final.join("");
     clearModal();
 }
-
 
 const clearModal = () => {
     modal.classList.add("hide");
