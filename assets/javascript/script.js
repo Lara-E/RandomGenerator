@@ -17,13 +17,6 @@ let uppers = document.getElementById("uppers");
 let length = document.getElementById("length");
 let modal = document.getElementById("modal");
 
-// let specialsVal = document.getElementById("specials").value;
-// let numsVal = document.getElementById("nums").value;
-// let lowersVal = document.getElementById("lowers").value;
-// let uppersVal = document.getElementById("uppers").value;
-// let lengthVal = document.getElementById("length").value;
-
-
 let params = {
     length: length, 
     specials: specials, 
@@ -47,39 +40,68 @@ const copy = (event) => {
 
 const getParams = (event) => {
     event.preventDefault();
-    let chosenLength = parseInt(params.length.value)
+    let chosenLength = parseInt(params.length.value);
+    let validateLength = document.getElementById("validate-length");
+    let validateBoxes = document.getElementById("validate-boxes");
     if (isNaN(chosenLength) || chosenLength < 8 || chosenLength > 128) {
-        document.getElementById("validate-length").classList.remove("hide");
+        validateLength.classList.remove("hide");
     } else if (!params.specials.checked && !params.nums.checked && !params.uppers.checked && !params.lowers.checked && !isNaN(chosenLength)) {
-        document.getElementById("validate-boxes").classList.remove("hide");
-        document.getElementById("validate-length").classList.add("hide");
+        validateBoxes.classList.remove("hide");
+        validateLength.classList.add("hide");
     } else if (!params.specials.checked && !params.nums.checked && !params.uppers.checked && !params.lowers.checked) {
-        document.getElementById("validate-boxes").classList.remove("hide");
+        validateBoxes.classList.remove("hide");
     } 
     
     else {
         modal.classList.add("hide");
     }
     console.log(params.specials.checked);
-    console.log(params.length.value)
-    
+    console.log(params.length.value);
+    generate();
 }
 
-const setValues = (el) => {
-    console.log(el)
-    params.el = el.checked;
-    // if (el.checked) {
-    // } else {
-    //     params.el = f;
-    // }
-    console.log(el.checked)
+const generate = () => {
+    if (params.specials.checked === true) {
+        random(specialCharArr);
+        choicesArr.push(...specialCharArr);
+    }
+
+    if (params.nums.checked === true) {
+        random(numbersArr);
+        choicesArr.push(...numbersArr);
+    }
+
+    if (params.lowers.checked === true) {
+        random(lowerCaseArr);
+        choicesArr.push(...lowerCaseArr);
+    }
+
+    if (params.uppers.checked === true) {
+        random(upperCaseArr);
+        choicesArr.push(...upperCaseArr);
+    }
+
+    finishGeneration();
+}
+
+const random = (arr) => {
+    let randomNum = Math.floor(Math.random() * arr.length);
+    generatedArr.push(arr[randomNum])
+    console.log(generatedArr)
+}
+
+const finishGeneration = () => {
+    console.log(choicesArr)
+    for(let i = generatedArr.length; i < params.length.value; i++) {
+        random(choicesArr);
+    }
 }
 
 document.getElementById("generate").addEventListener("click", startChoices);
 document.getElementById("copy").addEventListener("click", copy);
-document.getElementById("specials").addEventListener("change", function () {setValues(specials);});
-document.getElementById("nums").addEventListener("change", function () {setValues(nums);})
-document.getElementById("lowers").addEventListener("change", function () {setValues(lowers);})
-document.getElementById("uppers").addEventListener("change", function () {setValues(uppers);})
+// document.getElementById("specials").addEventListener("change", function () {setValues(specials);});
+// document.getElementById("nums").addEventListener("change", function () {setValues(nums);})
+// document.getElementById("lowers").addEventListener("change", function () {setValues(lowers);})
+// document.getElementById("uppers").addEventListener("change", function () {setValues(uppers);})
 
 document.getElementById("save").addEventListener("click", getParams);
