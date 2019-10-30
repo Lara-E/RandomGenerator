@@ -95,6 +95,12 @@ const finishGeneration = () => {
     for(let i = generatedArr.length; i < params.length.value; i++) {
         random(choicesArr);
     }
+
+    display();
+}
+
+const display = () => {
+    document.getElementById("display").value = generatedArr.join("");
 }
 
 document.getElementById("generate").addEventListener("click", startChoices);
