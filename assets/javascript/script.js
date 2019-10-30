@@ -17,6 +17,10 @@ let uppers = document.getElementById("uppers");
 let length = document.getElementById("length");
 let modal = document.getElementById("modal");
 let displayEl = document.getElementById("display");
+let validateLength = document.getElementById("validate-length");
+let validateBoxes = document.getElementById("validate-boxes");
+let checkmark = document.getElementById("checkmark");
+
 
 let params = {
     length: length,
@@ -34,15 +38,15 @@ const startChoices = (event) => {
 
 const copy = (event) => {
     event.preventDefault();
-        displayEl.select();
-        document.execCommand("copy");
+    displayEl.disabled = false;
+    displayEl.select();
+    document.execCommand("copy");
+    checkmark.classList.remove("hide");
 }
 
 const getParams = (event) => {
     event.preventDefault();
     let chosenLength = parseInt(params.length.value);
-    let validateLength = document.getElementById("validate-length");
-    let validateBoxes = document.getElementById("validate-boxes");
     if (isNaN(chosenLength) || chosenLength < 8 || chosenLength > 128) {
         validateLength.classList.remove("hide");
     } else if (!params.specials.checked && !params.nums.checked && !params.uppers.checked && !params.lowers.checked && !isNaN(chosenLength)) {
@@ -51,9 +55,9 @@ const getParams = (event) => {
     } else if (!params.specials.checked && !params.nums.checked && !params.uppers.checked && !params.lowers.checked) {
         validateBoxes.classList.remove("hide");
     } else {
-        modal.classList.add("hide");
+
+        generate();
     }
-    generate();
 }
 
 const generate = () => {
@@ -93,19 +97,29 @@ const finishGeneration = () => {
 }
 
 const display = () => {
-    console.log(generatedArr)
     let final = generatedArr
         .map((a) => ({ sort: Math.random(), value: a }))
         .sort((a, b) => a.sort - b.sort)
         .map((a) => a.value)
     displayEl.value = final.join("");
+    clearModal();
 }
 
-const copyCSS = () => {
-    displayEl.classList.add("copied");
+
+const clearModal = () => {
+    modal.classList.add("hide");
+    validateBoxes.classList.add("hide");
+    validateLength.classList.add("hide");
+    checkmark.classList.add("hide");
+    params.length.value = "";
+    params.specials.checked = false;
+    params.nums.checked = false;
+    params.lowers.checked = false;
+    params.uppers.checked = false;
 }
 
 document.getElementById("generate").addEventListener("click", startChoices);
 document.getElementById("copy").addEventListener("click", copy);
 document.getElementById("save").addEventListener("click", getParams);
-document.getElementById("copy").addEventListener("click", copyCSS)
+document.getElementById("close").addEventListener("click", clearModal);
+document.getElementById("cancel").addEventListener("click", clearModal);

@@ -6,6 +6,27 @@
     color: red;
 }
 
-#display {
-    height: 30%;
+.container {
+    margin-top: 10%;
+    position: relative;
+    width: 60%;
 }
+
+#modal {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    width: 30%;
+}
+
+.form-check {
+    margin-left: 5%;
+}
+
+#validate-length,
+#validate-boxes {
+    color: red;
+    font-weight: bold;
+}
+
+
