@@ -15,6 +15,7 @@ let nums = document.getElementById("nums");
 let lowers = document.getElementById("lowers");
 let uppers = document.getElementById("uppers");
 let length = document.getElementById("length");
+let modal = document.getElementById("modal");
 
 // let specialsVal = document.getElementById("specials").value;
 // let numsVal = document.getElementById("nums").value;
@@ -35,7 +36,7 @@ let params = {
 const startChoices = (event) => {
     event.preventDefault();
     console.log("gen clicked");
-    document.getElementById("modal").classList.remove("hide")
+    modal.classList.remove("hide");
 
 }
 
@@ -46,16 +47,22 @@ const copy = (event) => {
 
 const getParams = (event) => {
     event.preventDefault();
-    if (isNaN(parseInt(params.length.value))) {
-
-    }
-       
-   
+    let chosenLength = parseInt(params.length.value)
+    if (isNaN(chosenLength) || chosenLength < 8 || chosenLength > 128) {
+        document.getElementById("validate-length").classList.remove("hide");
+    } else if (!params.specials.checked && !params.nums.checked && !params.uppers.checked && !params.lowers.checked && !isNaN(chosenLength)) {
+        document.getElementById("validate-boxes").classList.remove("hide");
+        document.getElementById("validate-length").classList.add("hide");
+    } else if (!params.specials.checked && !params.nums.checked && !params.uppers.checked && !params.lowers.checked) {
+        document.getElementById("validate-boxes").classList.remove("hide");
+    } 
     
-    // $("#modal").modal("hide")
-    // console.log(params.specials.checked);
-    // console.log(params.length.value)
-
+    else {
+        modal.classList.add("hide");
+    }
+    console.log(params.specials.checked);
+    console.log(params.length.value)
+    
 }
 
 const setValues = (el) => {
